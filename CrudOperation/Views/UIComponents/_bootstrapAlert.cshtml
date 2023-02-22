@@ -1,0 +1,14 @@
+﻿@if (TempData["successAlert"] != null)
+{
+    <div id="alert" style="position:absolute; top:8%;right:30%; z-index:999" class="alert alert-success fade">
+        <strong>@TempData["successAlert"]</strong>
+    </div>
+}
+
+
+@if (TempData["errorAlert"] != null)
+{
+    <div id="alert" style="position:absolute; top:8%;right:30%; z-index:999" class="alert alert-danger fade">
+        <strong>@TempData["errorAlert"]</strong>
+    </div>
+}

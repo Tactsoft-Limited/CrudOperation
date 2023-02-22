@@ -1,0 +1,200 @@
+﻿@model CrudOperation.Models.Student
+
+<form asp-action="Create" enctype="multipart/form-data">
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <div class="row">
+        <div class="col-md-6">
+            <div class="form-group mt-2">
+                <label asp-for="StudentName" class="control-label"></label>
+                <input asp-for="StudentName" class="form-control" />
+                <span asp-validation-for="StudentName" class="text-danger"></span>
+            </div>
+            <div class="form-group mt-2">
+                <label asp-for="StudentEmail" class="control-label"></label>
+                <input asp-for="StudentEmail" class="form-control" />
+                <span asp-validation-for="StudentEmail" class="text-danger"></span>
+            </div>
+            <div class="form-group mt-2">
+                <label asp-for="StudentPhone" class="control-label"></label>
+                <input asp-for="StudentPhone" class="form-control" />
+                <span asp-validation-for="StudentPhone" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="mb-2" style="text-align:end">
+                <img src="~/images/eset_user.png" alt="img" id="UploadFile" class="img-thumbnail" style="width:150px;" />
+            </div>
+            <input type="file" asp-for="Picture" class="form-control" name="pictureFile" accept="image/*" id="FileUpload" onchange="PreviewImage()" />
+            <span asp-validation-for="Picture" class="text-danger"></span>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-6">
+            <div class="form-group mt-2">
+                <label asp-for="DateOfBirth" class="control-label"></label>
+                <input asp-for="DateOfBirth" class="form-control" />
+                <span asp-validation-for="DateOfBirth" class="text-danger"></span>
+            </div>
+            <div class="form-group mt-2">
+                <label asp-for="GenderId" class="control-label"></label>
+
+                @foreach (var gender in Enum.GetValues(typeof(Gender)).Cast<Gender>())
+                {
+                    <div class="form-check form-check-inline">
+                        <input type="radio" id="@gender" class="form-check-input" asp-for="GenderId" value="@gender" />
+                        <label class="form-check-label me-2" for="@gender"> @gender </label>
+                    </div>
+                }
+                <br />
+                <span asp-validation-for="GenderId" class="text-danger"></span>
+            </div>
+            <div class="form-group mt-2">
+                <label class="col-md-3 col-form-label">Education</label>
+                <div class="form-check form-check-inline">
+                    <input type="checkbox" class="form-check-input" asp-for="Ssc" />
+                    <label class="form-check-label" asp-for="Ssc">
+                        @Html.DisplayNameFor(model => model.Ssc)
+                    </label>
+                </div>
+                <div class="form-check form-check-inline">
+                    <input type="checkbox" class="form-check-input" asp-for="Hsc" />
+                    <label class="form-check-label" asp-for="Hsc">
+                        @Html.DisplayNameFor(model => model.Hsc)
+                    </label>
+                </div>
+                <div class="form-check form-check-inline">
+                    <input type="checkbox" class="form-check-input" asp-for="Bsc" />
+                    <label class="form-check-label" asp-for="Bsc">
+                        @Html.DisplayNameFor(model => model.Bsc)
+                    </label>
+                </div>
+                <div class="form-group mt-2">
+                    <label asp-for="Address" class="control-label"></label>
+                    <textarea asp-for="Address" class="form-control"></textarea>
+                    <span asp-validation-for="Address" class="text-danger"></span>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">  
+            <div class="form-group mt-2">
+                <label asp-for="CountryId" class="control-label"></label>
+                <select asp-for="CountryId" class="form-control" asp-items="ViewBag.CountryId">
+                    <option value="">Select Country</option>
+                </select>
+                <span asp-validation-for="CountryId" class="text-danger"></span>
+            </div>
+            <div class="form-group mt-2">
+                <label asp-for="StateId" class="control-label"></label>
+                <select asp-for="StateId" class="form-control" asp-items="ViewBag.StateId">
+                    <option value="">Select State</option>
+                </select>
+                <span asp-validation-for="StateId" class="text-danger"></span>
+            </div>
+            <div class="form-group mt-2">
+                <label asp-for="CityId" class="control-label"></label>
+                <select asp-for="CityId" class="form-control" asp-items="ViewBag.CityId">
+                    <option value="">Select City</option>
+                </select>
+                <span asp-validation-for="CityId" class="text-danger"></span>
+            </div>
+
+        </div>
+    </div>
+
+    <div class="form-group mt-2 d-flex justify-content-end">
+        <a asp-action="Index">Back to List</a>
+        <input type="submit" value="Create" class="btn btn-primary" />
+    </div>
+</form>
+
+<script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+<script src="~/lib/bootstrap/js/bootstrap.bundle.min.js"></script>
+<script src="~/lib/jquery-ajax-unobtrusive/jquery.unobtrusive-ajax.min.js"></script>
+<script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+<script>
+    $(document).ready(function () {
+
+        $('body').on('change', '#CountryId', function () {
+            var CountryId = $(this).val();
+            LoadState(CountryId);
+        })
+
+        $('body').on('change', '#StateId', function () {
+            var StateId = $(this).val();
+            LoadCity(StateId);
+        })
+
+        //Checkbox Checked
+        var $ssc = $("#Ssc");
+        var $hsc = $("#Hsc");
+        var $bsc = $("#Bsc");
+        var $msc = $("#Msc");
+
+        $hsc.on("click", function () {
+            var anyChecked = $hsc.is(":checked");
+            $ssc.prop("checked", anyChecked);
+        });
+        $bsc.on("click", function () {
+            var anyChecked = $bsc.is(":checked");
+            $ssc.prop("checked", anyChecked);
+            $hsc.prop("checked", anyChecked);
+        });
+        $msc.on("click", function () {
+            var anyChecked = $msc.is(":checked");
+            $ssc.prop("checked", anyChecked);
+            $hsc.prop("checked", anyChecked);
+            $bsc.prop("checked", anyChecked);
+        });
+
+        $ssc.on("click", function () {
+            var anyChecked = $ssc.is(":unchecked");
+            $hsc.prop("unchecked", anyChecked);
+            $bsc.prop("unchecked", anyChecked);
+            $msc.prop("unchecked", anyChecked);
+        });
+
+
+    });
+
+    function LoadState(CountryId) {
+        var $state = $('#StateId');
+
+        $.ajax({
+            type: "get",
+            url: "/Dropdown/GetStatesByCountryId",
+            data: { countryId: CountryId },
+            datatype: "json",
+            traditional: true,
+            success: function (data) {
+                var state = "<select id='StateId'>";
+                state = state + '<option value="">Select State</option>';
+                for (var i = 0; i < data.length; i++) {
+                    state = state + '<option value=' + data[i].id + '>' + data[i].stateName + '</option>';
+                }
+                state = state + '</select>';
+                $('#StateId').html(state);
+            }
+        });
+    }
+
+    function LoadCity(StateId) {
+        var $city = $('#CityId');
+
+        $.ajax({
+            type: "get",
+            url: "/Dropdown/GetCitiesByStateId",
+            data: { stateId: StateId },
+            datatype: "json",
+            traditional: true,
+            success: function (data) {
+                var city = "<select id='CityId'>";
+                city = city + '<option value="">Select City</option>';
+                for (var i = 0; i < data.length; i++) {
+                    city = city + '<option value=' + data[i].id + '>' + data[i].cityName + '</option>';
+                }
+                city = city + '</select>';
+                $('#CityId').html(city);
+            }
+        });
+    }
+</script>

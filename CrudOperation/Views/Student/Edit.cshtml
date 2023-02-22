@@ -1,0 +1,111 @@
+﻿@model CrudOperation.Models.Student
+
+<form asp-action="Edit" enctype="multipart/form-data">
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <input type="hidden" asp-for="Id" />
+    <div class="row">
+        <div class="col-md-6">
+            <div class="form-group">
+                <label asp-for="StudentName" class="control-label"></label>
+                <input asp-for="StudentName" class="form-control" />
+                <span asp-validation-for="StudentName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="StudentEmail" class="control-label"></label>
+                <input asp-for="StudentEmail" class="form-control" />
+                <span asp-validation-for="StudentEmail" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="StudentPhone" class="control-label"></label>
+                <input asp-for="StudentPhone" class="form-control" />
+                <span asp-validation-for="StudentPhone" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="row mb-2">
+                <label asp-for="Picture" class="col-md-3 col-form-label"></label>
+                <div class="col-md-9">
+                    <input type="file" asp-for="Picture" class="form-control" name="pictureFile" accept="image/*" id="FileUpload" onchange="PreviewImage()" />
+                    <span asp-validation-for="Picture" class="text-danger"></span>
+                </div>
+                <div class="mt-2" style="text-align:end">
+                    <img src="~/images/eset_user.png" alt="img" id="UploadFile" class="img-thumbnail" style="width:150px;" />
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-6">
+            <div class="form-group">
+                <label asp-for="Address" class="control-label"></label>
+                <textarea asp-for="Address" class="form-control"></textarea>
+                <span asp-validation-for="Address" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="DateOfBirth" class="control-label"></label>
+                <input asp-for="DateOfBirth" class="form-control" />
+                <span asp-validation-for="DateOfBirth" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="GenderId" class="control-label me-4"></label>
+                @foreach (var gender in Enum.GetValues(typeof(Gender)).Cast<Gender>())
+                {
+                    <input type="radio" id="@gender" class="form-check-input" asp-for="GenderId" value="@gender" />
+                    <label class="form-check-label me-2" for="@gender"> @gender </label>
+                }
+                <span asp-validation-for="GenderId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label class="col-md-3 col-form-label">Education</label>
+                <div class="form-check form-check-inline">
+                    <input type="checkbox" class="form-check-input" asp-for="Ssc" />
+                    <label class="form-check-label" asp-for="Ssc">
+                        @Html.DisplayNameFor(model => model.Ssc)
+                    </label>
+                </div>
+                <div class="form-check form-check-inline">
+                    <input type="checkbox" class="form-check-input" asp-for="Hsc" />
+                    <label class="form-check-label" asp-for="Hsc">
+                        @Html.DisplayNameFor(model => model.Hsc)
+                    </label>
+                </div>
+                <div class="form-check form-check-inline">
+                    <input type="checkbox" class="form-check-input" asp-for="Bsc" />
+                    <label class="form-check-label" asp-for="Bsc">
+                        @Html.DisplayNameFor(model => model.Bsc)
+                    </label>
+                </div>
+
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-group">
+                <label asp-for="CountryId" class="control-label"></label>
+                <select asp-for="CountryId" class="form-control" asp-items="ViewBag.CountryId"></select>
+            </div>
+            <div class="form-group">
+                <label asp-for="StateId" class="control-label"></label>
+                <select asp-for="StateId" class="form-control" asp-items="ViewBag.StateId"></select>
+            </div>
+            <div class="form-group">
+                <label asp-for="CityId" class="control-label"></label>
+                <select asp-for="CityId" class="form-control" asp-items="ViewBag.CityId"></select>
+            </div>
+
+        </div>
+    </div>
+
+    <div class="form-group">
+        <input type="submit" value="Create" class="btn btn-primary" />
+    </div>
+</form>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+
+<script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+<script src="~/lib/bootstrap/js/bootstrap.bundle.min.js"></script>
+<script src="~/lib/jquery-ajax-unobtrusive/jquery.unobtrusive-ajax.min.js"></script>
+<script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>

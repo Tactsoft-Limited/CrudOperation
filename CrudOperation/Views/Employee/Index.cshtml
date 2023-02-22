@@ -1,0 +1,92 @@
+﻿@model IEnumerable<CrudOperation.Models.Employee>
+
+@{
+    ViewData["Title"] = "Employee List";
+}
+
+<h3>Employee List</h3>
+
+<a class="btn btn-outline-primary btn-sm mt-3 mb-3 " asp-action="Create"><i class="bi bi-pencil-square"></i> Add New</a>
+<table id="myTable" class="table mt-5" style="width:100%">
+    <thead>
+        <tr>
+
+            <th>
+                @Html.DisplayNameFor(model => model.Picture)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Gender)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.JoiningDate)
+            </th>
+            <th style="text-align:center">
+                Education
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Address)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Country)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.State)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.City)
+            </th>
+            <th>Action</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+
+                <td>
+                    <img class="img-thumbnail" width="40" src="~/images/@Html.DisplayFor(modelItem => item.Picture)" alt="Image" />
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Gender)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.JoiningDate)
+                </td>
+                <td>
+                    @Html.DisplayNameFor(model => model.Ssc)
+                    @Html.DisplayFor(modelItem => item.Ssc)
+                    @Html.DisplayNameFor(model => model.Hsc)
+                    @Html.DisplayFor(modelItem => item.Hsc)
+                    @Html.DisplayNameFor(model => model.Bsc)
+                    @Html.DisplayFor(modelItem => item.Bsc)
+                    @Html.DisplayNameFor(model => model.Msc)
+                    @Html.DisplayFor(modelItem => item.Msc)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Address)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Country.CountryName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.State.StateName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.City.CityName)
+                </td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.Id"><i style="color:blue;" class="bi bi-pencil-square"></i></a> |
+                    <a asp-action="Details" asp-route-id="@item.Id"><i style="color:green;" class="bi bi-eye-fill"></i></a> |
+                    <a asp-action="Delete" asp-route-id="@item.Id"><i style="color:red;" class="bi bi-trash-fill"></i></a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+

@@ -1,0 +1,98 @@
+﻿@model IEnumerable<CrudOperation.Models.Student>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h2>Student List</h2>
+
+<a class="btn btn-success btn-sm" onclick="AddStudent()">
+    <i class="fa fa-plus"></i>
+</a>
+
+<table style="font-size:13px" class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Picture)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.StudentName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.StudentEmail)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.StudentPhone)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Address)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DateOfBirth)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.GenderId)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Country)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.State)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.City)
+            </th>
+            <th>Action</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    <img class="img-thumbnail" width="50" src="~/images/@Html.DisplayFor(modelItem => item.Picture)" alt="Image" />
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.StudentName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.StudentEmail)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.StudentPhone)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Address)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.DateOfBirth)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.GenderId)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Country.CountryName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.State.StateName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.City.CityName)
+                </td>
+                <td class="text-center">
+                    <a class="btn btn-light btn-sm" onclick="EditStudent(@item.Id)">
+                        <i style="color:green" class="fa fa-edit"></i>
+                    </a>
+                    <a class="btn btn-light btn-sm" onclick="DelStudent(@item.Id)">
+                        <i style="color:red" class="fa fa-trash"></i>
+                    </a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+<partial name="~/Views/UIComponents/_MediumModal.cshtml" />
+<partial name="~/Views/UIComponents/_bootstrapAlert.cshtml" />
+
+<script src="~/js/StudentCRUD.js"></script>
